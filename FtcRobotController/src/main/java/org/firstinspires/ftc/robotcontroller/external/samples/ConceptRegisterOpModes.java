@@ -81,8 +81,8 @@ public class ConceptRegisterOpModes
       // manager.register("Auto Drive Gyro",        PushbotAutoDriveByGyro_Linear.class);
       // manager.register("Auto Drive Encoder",     PushbotAutoDriveByEncoder_Linear.class);
       // manager.register("Auto Drive Time",        PushbotAutoDriveByTime_Linear.class);
-      // manager.register("Auto Drive Line",        PushbotAutoDriveToLine_Linear.class);
-      // manager.register("K9 Telop",               K9botTeleopTank_Linear.class);
+       manager.register("Auto Drive Line",        PushbotAutoDriveToLine_Linear.class);
+//      manager.register("encoderTeosat",      encoderTeosat.class);
 
       // Sensor Samples
       // manager.register("BNO055 IMU",             SensorBNO055IMU.class);
