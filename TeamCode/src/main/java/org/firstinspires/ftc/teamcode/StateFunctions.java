@@ -1,4 +1,4 @@
 package org.firstinspires.ftc.teamcode;
 
-public class StateFunctions extends BasicFunctions {
+public abstract class StateFunctions extends BasicFunctions {
 }
