@@ -25,7 +25,7 @@ import java.util.concurrent.BlockingQueue;
  * Created by Victo on 9/12/2018.
  */
 
-public class Dogeforia extends VuforiaLocalizerImpl {
+public class dogeforia extends VuforiaLocalizerImpl {
     DogeCVDetector detector;
     DrawViewSource displayView;
     boolean dogeCVEnabled;
@@ -37,7 +37,7 @@ public class Dogeforia extends VuforiaLocalizerImpl {
     Mat inputMat;
     Mat outMat;
     BlockingQueue<CloseableFrame> frames;
-    public Dogeforia(Parameters parameters) {
+    public dogeforia(Parameters parameters) {
         super(parameters);
 
 
