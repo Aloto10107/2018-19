@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -12,6 +13,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Axis;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 @Autonomous(name="encoderTest", group="Auto")
 public class encoderTeosat extends LinearOpMode {
     SoftwareRobotMap robot = new SoftwareRobotMap();
@@ -21,13 +28,29 @@ public class encoderTeosat extends LinearOpMode {
 
         robot.init(hardwareMap);
 
-        encoderDrive(50,50,12, 20, 10);
+        waitForStart();
+
+        //encoderDrive(.50,.50,48, 20, .75);
+
+/*        robot.leftFront.setPower(.5);
+        robot.rightFront.setPower(.5);
+        robot.leftBack.setPower(.5);
+        robot.rightBack.setPower(.5);
+
+        sleep(500);
+
+        robot.leftFront.setPower(0);
+        robot.rightFront.setPower(0);
+        robot.leftBack.setPower(0);
+        robot.rightBack.setPower(0);*/
+
+        gyroTurn(90);
 
     }
 
     public void encoderDrive(double Lspeed, double Rspeed, double Inches, double timeoutS, double rampup) throws InterruptedException {
 
-        double COUNTS_PER_MOTOR_REV = 2240;    //Set for NevRest 20 drive. For 40's change to 1120. For 60's 1680
+        double COUNTS_PER_MOTOR_REV = 1120;    //Set for NevRest 20 drive. For 40's change to 1120. For 60's 1680
         double DRIVE_GEAR_REDUCTION = 1.0;     // This is the ratio between the motor axle and the wheel
         double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
         double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
@@ -109,6 +132,35 @@ public class encoderTeosat extends LinearOpMode {
         robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        sleep(250);
+    }
+
+    public float getHeading(){
+        Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        return angles.firstAngle;
+    }
+    public void gyroTurn (float degrees){
+
+        //read orientation values from navx
+        double speed;
+
+        float kp = (float)0.008;
+
+        float error = degrees - getHeading();
+        //run loop to turn
+        while (Math.abs(error) > 5){
+            error = degrees - getHeading();
+            speed = kp * error;
+            robot.leftBack.setPower(-speed);
+            robot.rightBack.setPower(speed);
+            robot.leftFront.setPower(-speed);
+            robot.rightFront.setPower(speed);
+        }
+        robot.leftBack.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightFront.setPower(0);
     }
 }
 

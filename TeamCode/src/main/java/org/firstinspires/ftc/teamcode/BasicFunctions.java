@@ -8,7 +8,6 @@ public abstract class BasicFunctions extends OpMode {
 
     SoftwareRobotMap robot = new SoftwareRobotMap();
 
-    public void dirveDistance(double distance){}
 
     public void encoderDrive(double Lspeed, double Rspeed, double Inches, double timeoutS, double rampup) throws InterruptedException {
 
