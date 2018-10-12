@@ -1,39 +1,36 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.SoftwareRobotMap;
 import org.firstinspires.ftc.teamcode.StateFunctions;
 
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldDetector;
-import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
-import com.disnodeteam.dogecv.filters.HSVColorFilter;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import static java.lang.Thread.sleep;
-
 @Autonomous(name="testAutonomous", group="Auto")
-public class testAutonomous extends StateFunctions {
+public class testAutonomous extends StateFunctions  {
+    public void init(SamplingOrderDetector) {
+        if(leftCount == 0){
+            currentOrder = SamplingOrderDetector.GoldLocation.LEFT;
+        }
+
+        if(leftCount == 1){
+            currentOrder = SamplingOrderDetector.GoldLocation.CENTER;
+        }
+
+        if(leftCount >= 2){
+            currentOrder = SamplingOrderDetector.GoldLocation.RIGHT;
+        }
+    }
 
     SoftwareRobotMap robot = new SoftwareRobotMap();
 
-    enum state{INITIAL, DETECT, ALIGN, DRIVE}
+    enum state {INITIAL, DETECT, ALIGN, DRIVE}
 
     private SamplingOrderDetector detector;
 
     state robotState = state.INITIAL;
+
     @Override
     public void init() {
 
@@ -64,18 +61,16 @@ public class testAutonomous extends StateFunctions {
 
         telemetry.addData("sampleorder", detector.getLastOrder());
 
-        switch (robotState){
+        switch (robotState) {
 
-            case INITIAL:
-            {
+            case INITIAL: {
                 robotState = state.DETECT;
             }
 
-            case DETECT:
-            {
+            case DETECT: {
 
             }
-        }
+
 
 /*        telemetry.addData("heading1", pos.firstAngle);
         telemetry.addData("heading2", pos.secondAngle);
@@ -86,5 +81,7 @@ public class testAutonomous extends StateFunctions {
         telemetry.addData("rightfront", robot.rightFront.getCurrentPosition());
         telemetry.addData("leftfront", robot.leftFront.getCurrentPosition());
         telemetry.addData("rightback", robot.rightBack.getCurrentPosition());*/
+            break;
+        }
     }
 }
