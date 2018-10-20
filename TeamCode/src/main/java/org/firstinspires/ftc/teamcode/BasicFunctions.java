@@ -1,12 +1,29 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public abstract class BasicFunctions extends OpMode {
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+public abstract class BasicFunctions extends OpMode{
+
+    public DcMotor leftBack = null;
+    public DcMotor rightFront = null;
+    public DcMotor leftFront = null;
+    public DcMotor rightBack = null;
+    //public NavxMicroNavigationSensor navx = null;
+    public BNO055IMU imu = null;
+
+    HardwareMap ahwmap = hardwareMap;
 
     SoftwareRobotMap robot = new SoftwareRobotMap();
+
 
 
     public void encoderDrive(double Lspeed, double Rspeed, double Inches, double timeoutS, double rampup) throws InterruptedException {
@@ -73,9 +90,9 @@ public abstract class BasicFunctions extends OpMode {
         robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
         // show the driver how close they got to the last target
-        telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+        /*telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
         telemetry.addData("Path2", "Running at %7d :%7d", robot.leftFront.getCurrentPosition(), robot.rightFront.getCurrentPosition());
-        telemetry.update();
+        telemetry.update();*/
         //setting resetC as a way to check the current encoder values easily
         double resetC = ((Math.abs(robot.leftFront.getCurrentPosition()) + Math.abs(robot.leftBack.getCurrentPosition()) + Math.abs(robot.rightFront.getCurrentPosition()) + Math.abs(robot.rightBack.getCurrentPosition())));
         //Get the motor encoder resets in motion
@@ -94,6 +111,50 @@ public abstract class BasicFunctions extends OpMode {
         robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+    public float getHeading(){
+        Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        return angles.firstAngle;
+    }
+    public void gyroTurn (float degrees){
 
+        //read orientation values from navx
+        double speed;
+
+        float kp = (float)0.008;
+
+        float error = degrees - getHeading();
+        //run loop to turn
+        while (Math.abs(error) > 5){
+            error = degrees - getHeading();
+            speed = kp * error;
+            robot.leftBack.setPower(-speed);
+            robot.rightBack.setPower(speed);
+            robot.leftFront.setPower(-speed);
+            robot.rightFront.setPower(speed);
+        }
+        robot.leftBack.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightFront.setPower(0);
+    }
+    public void goldCube (float degrees){
+        double speed;
+        float kp = (float)0.008;
+        float error = (float)200 - degrees;
+        while (Math.abs(error) > 5){
+            error = (float)200 - degrees;
+            speed = kp * error;
+            robot.leftBack.setPower(-speed);
+            robot.rightBack.setPower(speed);
+            robot.leftFront.setPower(-speed);
+            robot.rightFront.setPower(speed);
+        }
+        robot.leftBack.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightFront.setPower(0);
+    }
 
 }
+
+

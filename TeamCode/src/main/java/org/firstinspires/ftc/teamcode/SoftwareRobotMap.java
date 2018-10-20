@@ -15,7 +15,7 @@ public class SoftwareRobotMap {
     //public NavxMicroNavigationSensor navx = null;
     public BNO055IMU imu = null;
 
-    HardwareMap hwMap =  null;
+    //HardwareMap hwMap =  null;
 
 
     /* Constructor */
@@ -25,19 +25,15 @@ public class SoftwareRobotMap {
 
     public void init(HardwareMap ahwmap){
 
-        hwMap =  ahwmap;
-        leftFront  = hwMap.get(DcMotor.class, "left_Front");
-        rightBack = hwMap.get(DcMotor.class, "right_Back");
-        leftBack    = hwMap.get(DcMotor.class, "left_Back");
-        rightFront = hwMap.get(DcMotor.class, "right_Front");
+        //hwMap =  ahwmap;
+        leftFront  = ahwmap.get(DcMotor.class, "left_Front");
+        rightBack = ahwmap.get(DcMotor.class, "right_Back");
+        leftBack    = ahwmap.get(DcMotor.class, "left_Back");
+        rightFront = ahwmap.get(DcMotor.class, "right_Front");
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        leftFront.setPower(0);
-        rightBack.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -53,10 +49,11 @@ public class SoftwareRobotMap {
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         //parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
         //parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        //parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        imu = hwMap.get(BNO055IMU.class, "imu");
+        imu = ahwmap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
 
 
 

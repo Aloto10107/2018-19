@@ -30,6 +30,11 @@ public class encoderTeosat extends LinearOpMode {
 
         waitForStart();
 
+        encoderDrive(50, 50, 24, 10, 10);
+
+        gyroTurn(90);
+
+
         //encoderDrive(.50,.50,48, 20, .75);
 
 /*        robot.leftFront.setPower(.5);
@@ -37,20 +42,21 @@ public class encoderTeosat extends LinearOpMode {
         robot.leftBack.setPower(.5);
         robot.rightBack.setPower(.5);
 
-        sleep(500);
-
-        robot.leftFront.setPower(0);
-        robot.rightFront.setPower(0);
-        robot.leftBack.setPower(0);
-        robot.rightBack.setPower(0);*/
-
-        gyroTurn(90);
+        sleep(500);/* BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        //parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        //parameters.loggingEnabled      = true;
+        //parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        imu = hwMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);*/
 
     }
 
     public void encoderDrive(double Lspeed, double Rspeed, double Inches, double timeoutS, double rampup) throws InterruptedException {
 
-        double COUNTS_PER_MOTOR_REV = 1120;    //Set for NevRest 20 drive. For 40's change to 1120. For 60's 1680
+        double COUNTS_PER_MOTOR_REV = 560;    //Set for NevRest 20 drive. For 40's change to 1120. For 60's 1680
         double DRIVE_GEAR_REDUCTION = 1.0;     // This is the ratio between the motor axle and the wheel
         double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
         double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
@@ -61,6 +67,10 @@ public class encoderTeosat extends LinearOpMode {
         //initialise some variables for the subroutine
         int newLeftTarget;
         int newRightTarget;
+        robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         // Ensure that the opmode is still active
         // Determine new target position, and pass to motor controller we only do this in case the encoders are not totally zero'd
         newLeftTarget = (robot.leftFront.getCurrentPosition() + robot.leftBack.getCurrentPosition()) / 2 + (int) (Inches * COUNTS_PER_INCH);
@@ -123,16 +133,15 @@ public class encoderTeosat extends LinearOpMode {
         robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //keep waiting while the reset is running
-        while (Math.abs(resetC) > 0) {
+        /*while (Math.abs(resetC) > 0) {
             resetC = ((Math.abs(robot.leftFront.getCurrentPosition()) + Math.abs(robot.leftBack.getCurrentPosition()) + Math.abs(robot.rightFront.getCurrentPosition()) + Math.abs(robot.rightBack.getCurrentPosition())));
             //idle();
-        }
+        }*/
         // switch the motors back to RUN_USING_ENCODER mode
         robot.leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         sleep(250);
     }
 
