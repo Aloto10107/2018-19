@@ -28,7 +28,9 @@ public class DriveEncoder extends LinearOpMode {
 
         robot.init(hardwareMap);
 
-        telemetry.addLine("ready");
+        telemetry.addLine("ready spaghetty");
+
+        telemetry.update();
 
         waitForStart();
 
@@ -41,7 +43,7 @@ public class DriveEncoder extends LinearOpMode {
     robot.rightFront.setPower(.5);
     robot.leftBack.setPower(.5);
     robot.rightBack.setPower(.5);
-
+leftFront
     sleep(500);/* BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
     parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -68,13 +70,13 @@ public class DriveEncoder extends LinearOpMode {
 
             // Determine new target position, and pass to motor controller
             newLeftBackTarget = robot.leftFront.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newRightBackTarget = robot.rightFront.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-            newRightFrontTarget = robot.rightFront.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-            newLeftFrontTarget = robot.rightFront.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            newRightBackTarget = robot.rightFront.getCurrentPosition() - (int) (rightInches * COUNTS_PER_INCH);
+            newRightFrontTarget = robot.rightBack.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            newLeftFrontTarget = robot.leftBack.getCurrentPosition() - (int) (leftInches * COUNTS_PER_INCH);
             robot.leftFront.setTargetPosition(newLeftFrontTarget);
-            robot.rightFront.setTargetPosition(newRightFrontTarget);
+            robot.rightFront.setTargetPosition(-newRightFrontTarget);
             robot.rightBack.setTargetPosition(newRightBackTarget);
-            robot.leftBack.setTargetPosition(newLeftBackTarget);
+            robot.leftBack.setTargetPosition(-newLeftBackTarget);
 
 
             // Turn On RUN_TO_POSITION
@@ -101,10 +103,15 @@ public class DriveEncoder extends LinearOpMode {
                     (robot.leftFront.isBusy() && robot.rightFront.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1", "Running to %7d :%7d", newLeftFrontTarget, newRightFrontTarget);
-                telemetry.addData("Path2", "Running at %7d :%7d",
-                        robot.leftFront.getCurrentPosition(),
-                        robot.rightFront.getCurrentPosition());
+                telemetry.addData("rightFront", robot.rightFront.getCurrentPosition());
+                telemetry.addData("leftBack", robot.leftBack.getCurrentPosition());
+                telemetry.addData("leftFront", robot.leftFront.getCurrentPosition());
+                telemetry.addData("rightBack", robot.rightBack.getCurrentPosition());
+                telemetry.addData("rightFrontTarget", newRightFrontTarget);
+                telemetry.addData("rightBackTarget", newRightFrontTarget);
+                telemetry.addData("leftFrontTarget", newRightFrontTarget);
+                telemetry.addData("leftBackTarget", newRightFrontTarget);
+
                 telemetry.update();
             }
 
