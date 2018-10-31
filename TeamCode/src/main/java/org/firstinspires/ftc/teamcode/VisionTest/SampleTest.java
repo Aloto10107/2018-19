@@ -31,26 +31,28 @@ package org.firstinspires.ftc.teamcode.VisionTest;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldDetector;
 import com.disnodeteam.dogecv.detectors.roverrukus.SamplingOrderDetector;
 import com.disnodeteam.dogecv.filters.HSVColorFilter;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="Sampling Order Example", group="Test")
+@Autonomous(name="Sampling Order Test", group="Test")
 
 public class SampleTest extends OpMode
 {
-    private SamplingOrderDetector detector;
+    private GoldAlignDetector detector;
 
 
     @Override
     public void init() {
         telemetry.addData("Status", "DogeCV 2018.0 - Sampling Order Example");
 
-        detector = new SamplingOrderDetector();
+        detector = new GoldAlignDetector();
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
         detector.useDefaults();
 
@@ -84,8 +86,8 @@ public class SampleTest extends OpMode
 
     @Override
     public void loop() {
-        telemetry.addData("Current Order" , detector.getCurrentOrder().toString()); // The current result for the frame
-        telemetry.addData("Last Order" , detector.getLastOrder().toString()); // The last known result
+        telemetry.addData("is found" , detector.isFound()); // The current result for the frame
+        telemetry.addData("get aligned" , detector.getAligned()); // The last known result
     }
 
     /*

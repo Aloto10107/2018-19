@@ -34,6 +34,16 @@ public class DriveEncoder extends LinearOpMode {
 
         waitForStart();
 
+/*        robot.leftFront.setPower(Math.abs(.5));
+        robot.rightFront.setPower(Math.abs(.5));
+        robot.leftBack.setPower(Math.abs(.5));
+        robot.rightBack.setPower(Math.abs(.5));
+        sleep(3000);
+        robot.leftFront.setPower(Math.abs(.5));
+        robot.rightFront.setPower(Math.abs(.5));
+        robot.leftBack.setPower(Math.abs(.5));
+        robot.rightBack.setPower(Math.abs(.5));*/
+
         encoderDrive(.5, 24, 24, 10);
 
 
@@ -68,15 +78,20 @@ leftFront
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
+            robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = robot.leftFront.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newRightBackTarget = robot.rightFront.getCurrentPosition() - (int) (rightInches * COUNTS_PER_INCH);
-            newRightFrontTarget = robot.rightBack.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-            newLeftFrontTarget = robot.leftBack.getCurrentPosition() - (int) (leftInches * COUNTS_PER_INCH);
+            newLeftBackTarget = robot.leftBack.getCurrentPosition() - (int) (leftInches * COUNTS_PER_INCH);
+            newRightBackTarget = robot.rightBack.getCurrentPosition() - (int) (rightInches * COUNTS_PER_INCH);
+            newRightFrontTarget = robot.rightFront.getCurrentPosition() - (int) (rightInches * COUNTS_PER_INCH);
+            newLeftFrontTarget = robot.leftFront.getCurrentPosition() - (int) (leftInches * COUNTS_PER_INCH);
             robot.leftFront.setTargetPosition(newLeftFrontTarget);
-            robot.rightFront.setTargetPosition(-newRightFrontTarget);
+            robot.rightFront.setTargetPosition(newRightFrontTarget);
             robot.rightBack.setTargetPosition(newRightBackTarget);
-            robot.leftBack.setTargetPosition(-newLeftBackTarget);
+            robot.leftBack.setTargetPosition(newLeftBackTarget);
 
 
             // Turn On RUN_TO_POSITION
@@ -87,10 +102,10 @@ leftFront
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.leftFront.setPower(Math.abs(speed));
-            robot.rightFront.setPower(Math.abs(speed));
-            robot.leftBack.setPower(Math.abs(speed));
-            robot.rightBack.setPower(Math.abs(speed));
+            robot.leftFront.setPower(speed);
+            robot.rightFront.setPower(speed);
+            robot.leftBack.setPower(speed);
+            robot.rightBack.setPower(speed);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -108,9 +123,9 @@ leftFront
                 telemetry.addData("leftFront", robot.leftFront.getCurrentPosition());
                 telemetry.addData("rightBack", robot.rightBack.getCurrentPosition());
                 telemetry.addData("rightFrontTarget", newRightFrontTarget);
-                telemetry.addData("rightBackTarget", newRightFrontTarget);
-                telemetry.addData("leftFrontTarget", newRightFrontTarget);
-                telemetry.addData("leftBackTarget", newRightFrontTarget);
+                telemetry.addData("rightBackTarget", newRightBackTarget);
+                telemetry.addData("leftFrontTarget", newLeftFrontTarget);
+                telemetry.addData("leftBackTarget", newLeftBackTarget);
 
                 telemetry.update();
             }

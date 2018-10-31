@@ -19,6 +19,10 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
         telemetry.addData("heading", robit.imu.getAngularOrientation().firstAngle);
-
+        telemetry.addData("rightFront", robit.rightFront.getCurrentPosition());
+        telemetry.addData("leftFront", robit.leftFront.getCurrentPosition());
+        telemetry.addData("rightBack", robit.rightBack.getCurrentPosition());
+        telemetry.addData("leftBack", robit.leftBack.getCurrentPosition());
+        telemetry.update();
     }
 }
