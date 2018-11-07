@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -17,11 +18,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.SoftwareRobotMap;
 
+
 @Autonomous(name="plzwork", group="Auto")
 public class wutShouldWeCallIt extends OpMode {
 
     private GoldAlignDetector detector;
-    enum state {INITIAL, DETECT, ALIGN, DRIVE, FINAL}
+    enum state {INITIAL, DETECT, ALIGN, ALIGN2, ALIGN3,  HIT, FINAL}
     state robotState = state.INITIAL;
 
     public DcMotor leftBack = null;
@@ -41,10 +43,10 @@ public class wutShouldWeCallIt extends OpMode {
         rightBack.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //navx = hwMap.get(NavxMicroNavigationSensor.class, "navx");
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -88,29 +90,55 @@ public class wutShouldWeCallIt extends OpMode {
         telemetry.update();
         switch (robotState){
             case INITIAL: {
-                drive(.5, 500);
-                gyroTurn(0);
+                drive(.5, 600);
                 gyroTurn(-90);
-                drive(-.5, 500);
+                drive(-.5, 700);
                 robotState = state.ALIGN;
             }
             case ALIGN: {
-                /*while (detector.isFound()){
-                    leftBack.setPower(0.3);
-                    rightBack.setPower(0.3);
-                    leftFront.setPower(0.3);
-                    rightFront.setPower(0.3);
+                ElapsedTime time = new ElapsedTime();
+                time.reset();
+                while (!detector.isFound() && time.milliseconds() < 4000) {
+                    leftBack.setPower(0.2);
+                    rightBack.setPower(0.2);
+                    leftFront.setPower(0.2);
+                    rightFront.setPower(0.2);
+                }
+                robotState = state.ALIGN2;
+            }
+            case ALIGN2: {
+                ElapsedTime time = new ElapsedTime();
+                time.reset();
+                while (!detector.isFound() && time.milliseconds() < 4000) {
+                    leftBack.setPower(0.2);
+                    rightBack.setPower(0.2);
+                    leftFront.setPower(0.2);
+                    rightFront.setPower(0.2);
+                }
+                robotState = state.ALIGN3;
+            }
+            case ALIGN3: {
+                ElapsedTime time = new ElapsedTime();
+                time.reset();
+                while (!detector.isFound() && time.milliseconds() < 4000) {
+                    leftBack.setPower(0.2);
+                    rightBack.setPower(0.2);
+                    leftFront.setPower(0.2);
+                    rightFront.setPower(0.2);
                 }
                 leftBack.setPower(0);
                 rightBack.setPower(0);
                 leftFront.setPower(0);
                 rightFront.setPower(0);
-                gyroTurn(-90);*/
+                robotState = state.HIT;
+            }
+            case HIT:{
+                gyroTurn(-180);
+                drive(-.5, 200);
                 robotState = state.FINAL;
             }
             case FINAL:{
                 requestOpModeStop();
-                stop();
             }
         }
 
@@ -138,7 +166,7 @@ public class wutShouldWeCallIt extends OpMode {
         //read orientation values from navx
         double speed;
 
-        float kp = (float)0.008;
+        float kp = (float)0.009;
 
         float error = degrees - getHeading();
         //run loop to turn
