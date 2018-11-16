@@ -23,6 +23,7 @@ public class Teleop extends OpMode {
     public DcMotor leftFront = null;
     public DcMotor rightBack = null;
     public BNO055IMU imu = null;
+    public DcMotor hookArm = null;
 
     double rightPower = 0;
     double leftPower = 0;
@@ -38,13 +39,18 @@ public class Teleop extends OpMode {
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        hookArm = hardwareMap.get(DcMotor.class, "hookArm");
+        hookArm.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        hookArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -61,11 +67,12 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
 
-        /*rightPower = (.5*(gamepad1.left_stick_y)  - (gamepad1.right_stick_x));
-        leftPower = (.5*(gamepad1.left_stick_y)  + (gamepad1.right_stick_x));*/
+        rightPower = (.5*(gamepad1.left_stick_y)  - (gamepad1.right_stick_x));
+        leftPower = (.5*(gamepad1.left_stick_y)  + (gamepad1.right_stick_x));
 
-        rightPower = -gamepad1.right_stick_y;
-        leftPower = -gamepad1.left_stick_y;
+        /*rightPower = -gamepad1.right_stick_y;
+        `
+        leftPower = -gamepad1.left_stick_y;*/
 
         if (Math.abs(leftPower) < .1){
             leftPower = 0;
@@ -78,6 +85,18 @@ public class Teleop extends OpMode {
         rightBack.setPower(rightPower);
         leftBack.setPower(leftPower);
         leftFront.setPower(leftPower);
+
+        if(gamepad2.dpad_up && !gamepad2.dpad_down){
+            hookArm.setPower(1);
+        }
+
+        if(!gamepad2.dpad_up && !gamepad2.dpad_down){
+            hookArm.setPower(0);
+        }
+
+        if(gamepad2.dpad_down && !gamepad2.dpad_up){
+            hookArm.setPower(-.8);
+        }
 
         telemetry.addData("heading", getHeading());
         telemetry.addData("rightFront", rightFront.getCurrentPosition());

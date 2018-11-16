@@ -35,7 +35,7 @@ public class HardwareRobotMap {
         rightBack = ahwmap.get(DcMotor.class, "right_Back");
         leftBack    = ahwmap.get(DcMotor.class, "left_Back");
         rightFront = ahwmap.get(DcMotor.class, "right_Front");
-        yee = ahwmap.get(Servo.class, "yee");
+        //yee = ahwmap.get(Servo.class, "yee");
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -49,6 +49,7 @@ public class HardwareRobotMap {
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;

@@ -59,7 +59,7 @@ public class OneSampleAuto extends LinearOpMode {
             robot.rightFront.setPower(0.2);
         }
         robot.leftBack.setPower(0);
-        robot.rightBack.setPower(0);
+        robot.rightBack.setPower(0);  //hi
         robot.leftFront.setPower(0);
         robot.rightFront.setPower(0);
 
