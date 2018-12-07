@@ -5,14 +5,19 @@ import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name="teleop", group="teleop")
@@ -23,10 +28,13 @@ public class Teleop extends OpMode {
     public DcMotor leftFront = null;
     public DcMotor rightBack = null;
     public BNO055IMU imu = null;
-    public DcMotor hookArm = null;
+    public DcMotor lift = null;
+    public Servo ratchet = null;
 
     double rightPower = 0;
     double leftPower = 0;
+
+    public DistanceSensor sensorRange;
 
     @Override
     public void init() {
@@ -34,6 +42,9 @@ public class Teleop extends OpMode {
         rightBack = hardwareMap.get(DcMotor.class, "right_Back");
         leftBack    = hardwareMap.get(DcMotor.class, "left_Back");
         rightFront = hardwareMap.get(DcMotor.class, "right_Front");
+        lift = hardwareMap.get(DcMotor.class, "lift_Arm");
+        ratchet = hardwareMap.get(Servo.class, "ratchet");
+
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -47,10 +58,13 @@ public class Teleop extends OpMode {
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        hookArm = hardwareMap.get(DcMotor.class, "hookArm");
-        hookArm.setDirection(DcMotor.Direction.FORWARD);
+        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
+
+        /*lift = hardwareMap.get(DcMotor.class, "hookArm");
+        lift.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        hookArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -67,35 +81,46 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
 
-        rightPower = (.5*(gamepad1.left_stick_y)  - (gamepad1.right_stick_x));
-        leftPower = (.5*(gamepad1.left_stick_y)  + (gamepad1.right_stick_x));
+        rightPower = ((-gamepad1.right_trigger + gamepad1.left_trigger)  + (gamepad1.left_stick_x));
+        leftPower = ((-gamepad1.right_trigger + gamepad1.left_trigger)  - (gamepad1.left_stick_x));
 
         /*rightPower = -gamepad1.right_stick_y;
         `
         leftPower = -gamepad1.left_stick_y;*/
 
-        if (Math.abs(leftPower) < .1){
+        if (Math.abs(leftPower) < .2){
             leftPower = 0;
         }
-        if (Math.abs(rightPower) < .1){
+        if (Math.abs(rightPower) < .2){
             rightPower = 0;
         }
+
+        rightPower = 0.7*rightPower;
+        leftPower = 0.7*leftPower;
 
         rightFront.setPower(rightPower);
         rightBack.setPower(rightPower);
         leftBack.setPower(leftPower);
         leftFront.setPower(leftPower);
 
-        if(gamepad2.dpad_up && !gamepad2.dpad_down){
-            hookArm.setPower(1);
+        if(gamepad2.right_bumper && !gamepad2.left_bumper){
+            lift.setPower(1);
         }
 
-        if(!gamepad2.dpad_up && !gamepad2.dpad_down){
-            hookArm.setPower(0);
+        if(!gamepad2.right_bumper && !gamepad2.left_bumper){
+            lift.setPower(0);
         }
 
-        if(gamepad2.dpad_down && !gamepad2.dpad_up){
-            hookArm.setPower(-.8);
+        if(gamepad2.left_bumper && !gamepad2.right_bumper){
+            lift.setPower(-1);
+            }
+
+        if(gamepad2.a){
+            ratchet.setPosition(1);
+        }
+        if(!gamepad2.a){
+            ratchet.setPosition(0);
+
         }
 
         telemetry.addData("heading", getHeading());
@@ -103,6 +128,7 @@ public class Teleop extends OpMode {
         telemetry.addData("leftFront", leftFront.getCurrentPosition());
         telemetry.addData("rightBack", rightBack.getCurrentPosition());
         telemetry.addData("leftBack", leftBack.getCurrentPosition());
+        telemetry.addData("distance", sensorRange.getDistance(DistanceUnit.CM));
         telemetry.update();
     }
     public float getHeading(){

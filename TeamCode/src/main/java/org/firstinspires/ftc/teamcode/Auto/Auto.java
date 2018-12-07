@@ -31,7 +31,22 @@ public class Auto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+
         robot.init(hardwareMap);
+
+        detector = new GoldAlignDetector();
+        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+        detector.useDefaults();
+
+        detector.downscale = 0.4; // How much to downscale the input frames
+
+        // Optional Tuning
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
+        detector.maxAreaScorer.weight = 0.001;
+
+        detector.ratioScorer.weight = 15;
+        detector.ratioScorer.perfectRatio = 1.0;robot.init(hardwareMap);
 
         detector = new GoldAlignDetector();
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
@@ -55,38 +70,47 @@ public class Auto extends LinearOpMode {
 
         waitForStart();
 
-        //gyroTurn(90);
-
-        drive(.5, 650);
         gyroTurn(90);
-        drive(-.5, 500);
+
+        /*robot.lift.setPower(-.3);
+        sleep(3600);
+        robot.lift.setPower(0);
+        turn(.5, 200);
+        drive(.25, 1150);
+        gyroTurn(-90);
+        drive(.25, 1000);
 
         while (!detector.isFound()) {
-            robot.leftBack.setPower(0.2);
-            robot.rightBack.setPower(0.2);
-            robot.leftFront.setPower(0.2);
-            robot.rightFront.setPower(0.2);
+            robot.leftBack.setPower(-0.2);
+            robot.rightBack.setPower(-0.2);
+            robot.leftFront.setPower(-0.2);
+            robot.rightFront.setPower(-0.2);
         }
         robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
         robot.leftFront.setPower(0);
         robot.rightFront.setPower(0);
 
-        /*turn(.5, 350);
+        sleep(250);
 
-        drive(-.5, 300);
+        drive(.25, 400);
 
-        drive(.5, 300);
+        gyroTurn(0);
 
-        turn(-.5, 350);
+        drive(.25, 800);
 
-        drive(.5, 800);
+        drive(-.25, 800);
 
-        while (robot.sensorRange.getDistance(DistanceUnit.CM) >= 60){
-            robot.leftBack.setPower(.5);
-            robot.rightBack.setPower(.5);
-            robot.leftFront.setPower(.5);
-            robot.rightFront.setPower(.5);
+        gyroTurn(-90);
+
+        //drive(-.25, 400);
+
+
+        while (robot.sensorRange.getDistance(DistanceUnit.CM) >= 40){
+            robot.leftBack.setPower(-.2);
+            robot.rightBack.setPower(-.2);
+            robot.leftFront.setPower(-.2);
+            robot.rightFront.setPower(-.2);
         }
 
         robot.leftBack.setPower(0);
@@ -94,9 +118,9 @@ public class Auto extends LinearOpMode {
         robot.leftFront.setPower(0);
         robot.rightFront.setPower(0);
 
-        turn(.5, 350);
+        gyroTurn(180);
 
-        while (!detector.isFound()) {
+        *//*while (!detector.isFound()) {
             robot.leftBack.setPower(0.2);
             robot.rightBack.setPower(0.2);
             robot.leftFront.setPower(0.2);
@@ -123,13 +147,100 @@ public class Auto extends LinearOpMode {
         robot.rightBack.setPower(0);
         robot.leftFront.setPower(0);
         robot.rightFront.setPower(0);
-        sleep(500);*/
+        sleep(500);*//*
+*/
 
+        detector.enable();
+
+        telemetry.addLine("ready spaghetty");
+
+        telemetry.update();
+
+        waitForStart();
+
+        gyroTurn(90);
+
+        /*robot.lift.setPower(-.3);
+        sleep(3600);
+        robot.lift.setPower(0);
+        turn(.5, 200);
+        drive(.25, 1150);
+        gyroTurn(-90);
+        drive(.25, 1000);
+
+        while (!detector.isFound()) {
+            robot.leftBack.setPower(-0.2);
+            robot.rightBack.setPower(-0.2);
+            robot.leftFront.setPower(-0.2);
+            robot.rightFront.setPower(-0.2);
+        }
+        robot.leftBack.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightFront.setPower(0);
+
+        sleep(250);
+
+        drive(.25, 400);
+
+        gyroTurn(0);
+
+        drive(.25, 800);
+
+        drive(-.25, 800);
+
+        gyroTurn(-90);
+
+        //drive(-.25, 400);
+
+
+        while (robot.sensorRange.getDistance(DistanceUnit.CM) >= 40){
+            robot.leftBack.setPower(-.2);
+            robot.rightBack.setPower(-.2);
+            robot.leftFront.setPower(-.2);
+            robot.rightFront.setPower(-.2);
+        }
+
+        robot.leftBack.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightFront.setPower(0);
+
+        gyroTurn(180);
+
+        //*while (!detector.isFound()) {
+/*            robot.leftBack.setPower(0.2);
+            robot.rightBack.setPower(0.2);
+            robot.leftFront.setPower(0.2);
+            robot.rightFront.setPower(0.2);
+        }
+        robot.leftBack.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightFront.setPower(0);
+
+        turn(-.5, 350);
+
+        drive(.5, 300);
+
+        robot.yee.setPosition(1);*/
+    }
+    public void Baddrive (double MotorPower, long time){
+        robot.leftBack.setPower(MotorPower);
+        robot.rightBack.setPower(MotorPower);
+        robot.leftFront.setPower(MotorPower);
+        robot.rightFront.setPower(MotorPower);
+        sleep(time);
+        robot.leftBack.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightFront.setPower(0);
+        sleep(500);
     }
     public void drive(double motorpower, double time){
         double speed;
 
-        double kp = 0.0065;
+        double kp = 0.0062;
 
         float degrees = getHeading();
 
@@ -203,17 +314,18 @@ public class Auto extends LinearOpMode {
         //read orientation values from navx
         double speed;
 
-        double kp = 0.0065;
+        double kp = 0.0072;
 
         float error = (degrees - getHeading());
+        speed = kp * error;
         //run loop to turn
         while (Math.abs(error) > 5){
             error = (degrees - getHeading());
             speed = kp * error;
-            robot.leftBack.setPower(-speed);
-            robot.rightBack.setPower(speed);
-            robot.leftFront.setPower(-speed);
-            robot.rightFront.setPower(speed);
+            robot.leftBack.setPower(speed);
+            robot.rightBack.setPower(-speed);
+            robot.leftFront.setPower(speed);
+            robot.rightFront.setPower(-speed);
         }
         robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);

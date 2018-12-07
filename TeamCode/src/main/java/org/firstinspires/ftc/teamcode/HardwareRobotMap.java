@@ -16,9 +16,12 @@ public class HardwareRobotMap {
     public DcMotor leftFront = null;
     public DcMotor rightBack = null;
     public Servo yee = null;
+    public DcMotor lift = null;
     //public NavxMicroNavigationSensor navx = null;
     public BNO055IMU imu = null;
     public DistanceSensor sensorRange;
+    public Servo ratchet = null;
+
 
     //HardwareMap hwMap =  null;
 
@@ -35,21 +38,26 @@ public class HardwareRobotMap {
         rightBack = ahwmap.get(DcMotor.class, "right_Back");
         leftBack    = ahwmap.get(DcMotor.class, "left_Back");
         rightFront = ahwmap.get(DcMotor.class, "right_Front");
+        lift = ahwmap.get(DcMotor.class, "lift_Arm");
+        ratchet = ahwmap.get(Servo.class, "ratchet");
+
         //yee = ahwmap.get(Servo.class, "yee");
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
+        lift.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //navx = hwMap.get(NavxMicroNavigationSensor.class, "navx");
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
