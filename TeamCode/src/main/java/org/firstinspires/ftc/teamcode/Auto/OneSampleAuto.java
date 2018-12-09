@@ -60,13 +60,13 @@ public class OneSampleAuto extends LinearOpMode {
         //gyroTurn(90);
 
         robot.lift.setPower(-.3);
-        sleep(3800);
+        sleep(4000);
         robot.lift.setPower(0);
         turn(.5, 600);
-        drive(.5, 1150);
+        Baddrive(.7, 1000);
         gyroTurn(-90);
         //turn(.5, 350);
-        drive(.5, 1000);
+        drive(.75, 750);
 
         while (!detector.isFound()) {
             robot.leftBack.setPower(-0.5);
@@ -86,20 +86,20 @@ public class OneSampleAuto extends LinearOpMode {
         gyroTurn(0);
         //turn(-.5, 350);
 
-        drive(.25, 800);
+        drive(.25, 1000);
 
-        drive(-.25, 600);
+        drive(-.25, 800);
 
         gyroTurn(-90);
 
         //drive(-.25, 400);
 
 
-        while (robot.sensorRange.getDistance(DistanceUnit.CM) >= 10){
-            robot.leftBack.setPower(-.2);
-            robot.rightBack.setPower(-.2);
-            robot.leftFront.setPower(-.2);
-            robot.rightFront.setPower(-.2);
+        while (robot.sensorRange.getDistance(DistanceUnit.CM) >= 25) {
+            robot.leftBack.setPower(-.5);
+            robot.rightBack.setPower(-.5);
+            robot.leftFront.setPower(-.5);
+            robot.rightFront.setPower(-.5);
         }
 
         robot.leftBack.setPower(0);
@@ -109,7 +109,7 @@ public class OneSampleAuto extends LinearOpMode {
 
         gyroTurn(135);
 
-        drive(0.5, 800);
+        drive(1, 1500);
 
         robot.ratchet.setPosition(1);
 
@@ -117,7 +117,7 @@ public class OneSampleAuto extends LinearOpMode {
 
         robot.ratchet.setPosition(0);
 
-        drive(-0.5, 1800);
+        //drive(-0.7, 4000);
 
         /*while (!detector.isFound()) {
             robot.leftBack.setPower(0.2);
@@ -136,23 +136,26 @@ public class OneSampleAuto extends LinearOpMode {
 
         robot.yee.setPosition(1);
     }
-    public void Baddrive (double MotorPower, long time){
-        robot.leftBack.setPower(MotorPower);
-        robot.rightBack.setPower(MotorPower);
-        robot.leftFront.setPower(MotorPower);
-        robot.rightFront.setPower(MotorPower);
-        sleep(time);
-        robot.leftBack.setPower(0);
-        robot.rightBack.setPower(0);
-        robot.leftFront.setPower(0);
-        robot.rightFront.setPower(0);
-        sleep(500);*/
-
+    */
     }
+    public void Baddrive (double MotorPower, long time){
+            robot.leftBack.setPower(MotorPower);
+            robot.rightBack.setPower(MotorPower);
+            robot.leftFront.setPower(MotorPower);
+            robot.rightFront.setPower(MotorPower);
+            sleep(time);
+            robot.leftBack.setPower(0);
+            robot.rightBack.setPower(0);
+            robot.leftFront.setPower(0);
+            robot.rightFront.setPower(0);
+            sleep(500);
+        }
+
+
     public void drive(double motorpower, double time){
         double speed;
-
-        double kp = 0.0072;
+        //was 0.0072
+        double kp = 0.0075;
 
         float degrees = getHeading();
 
@@ -228,10 +231,14 @@ public class OneSampleAuto extends LinearOpMode {
 
         double kp = 0.008;
 
+        ElapsedTime time5 = new ElapsedTime();
+
+        time5.reset();
+
         float error = (degrees - getHeading());
         speed = kp * error;
         //run loop to turn
-        while (Math.abs(error) > 5){
+        while (Math.abs(error) > 5 && time5.milliseconds() < 3000){
             error = (degrees - getHeading());
             speed = kp * error;
             robot.leftBack.setPower(speed);
