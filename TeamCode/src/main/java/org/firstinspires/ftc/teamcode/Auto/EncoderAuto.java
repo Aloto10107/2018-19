@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
@@ -57,7 +58,8 @@ public class EncoderAuto extends LinearOpMode {
 
         gyroTurn(90);
 
-        /*robot.lift.setPower(-.3);
+        */
+/*robot.lift.setPower(-.3);
         sleep(3600);
         robot.lift.setPower(0);
         turn(.5, 200);
@@ -130,7 +132,8 @@ public class EncoderAuto extends LinearOpMode {
         robot.rightBack.setPower(0);
         robot.leftFront.setPower(0);
         robot.rightFront.setPower(0);
-        sleep(500);*/
+        sleep(500);*//*
+
 
     }
     public void drive(double motorpower, double time){
@@ -230,3 +233,4 @@ public class EncoderAuto extends LinearOpMode {
         sleep(500);
     }
 }
+*/

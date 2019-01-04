@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.Auto;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
@@ -228,9 +229,11 @@ public class testAutonomous extends OpMode {
         leftBack.setPower(0);
         rightBack.setPower(0);
         // show the driver how close they got to the last target
-        /*telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+        */
+/*telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
         telemetry.addData("Path2", "Running at %7d :%7d", robot.leftFront.getCurrentPosition(), robot.rightFront.getCurrentPosition());
-        telemetry.update();*/
+        telemetry.update();*//*
+
         //setting resetC as a way to check the current encoder values easily
         double resetC = ((Math.abs(leftFront.getCurrentPosition()) + Math.abs(leftBack.getCurrentPosition()) + Math.abs(rightFront.getCurrentPosition()) + Math.abs(rightBack.getCurrentPosition())));
         //Get the motor encoder resets in motion
@@ -245,9 +248,11 @@ public class testAutonomous extends OpMode {
             resetC = ((Math.abs(leftFront.getCurrentPosition()) + Math.abs(leftBack.getCurrentPosition()) + Math.abs(rightFront.getCurrentPosition()) + Math.abs(rightBack.getCurrentPosition())));
             //idle();
         }
-        /**
+        */
+/**
          //MIGHT BE CAUSING ISSUES
-         */
+         *//*
+
         // switch the motors back to RUN_USING_ENCODER mode
         sleepy(250);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -307,3 +312,4 @@ public class testAutonomous extends OpMode {
     }
 
 }
+*/

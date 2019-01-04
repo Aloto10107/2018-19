@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -91,9 +92,11 @@ public abstract class BasicFunctions extends LinearOpMode {
         robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
         // show the driver how close they got to the last target
-        /*telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+        */
+/*telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
         telemetry.addData("Path2", "Running at %7d :%7d", robot.leftFront.getCurrentPosition(), robot.rightFront.getCurrentPosition());
-        telemetry.update();*/
+        telemetry.update();*//*
+
         //setting resetC as a way to check the current encoder values easily
         double resetC = ((Math.abs(robot.leftFront.getCurrentPosition()) + Math.abs(robot.leftBack.getCurrentPosition()) + Math.abs(robot.rightFront.getCurrentPosition()) + Math.abs(robot.rightBack.getCurrentPosition())));
         //Get the motor encoder resets in motion
@@ -159,3 +162,4 @@ public abstract class BasicFunctions extends LinearOpMode {
 }
 
 
+*/

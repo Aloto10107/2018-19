@@ -10,9 +10,9 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class HardwareRobotMap {
-    public DcMotor leftBack = null;
-    public DcMotor rightFront = null;
+public class  HardwareRobotMap {
+    //public DcMotor leftBack = null;
+    //public DcMotor rightFront = null;
     public DcMotor leftFront = null;
     public DcMotor rightBack = null;
     public Servo yee = null;
@@ -36,27 +36,27 @@ public class HardwareRobotMap {
         //hwMap =  ahwmap;
         leftFront  = ahwmap.get(DcMotor.class, "left_Front");
         rightBack = ahwmap.get(DcMotor.class, "right_Back");
-        leftBack    = ahwmap.get(DcMotor.class, "left_Back");
-        rightFront = ahwmap.get(DcMotor.class, "right_Front");
+        //leftBack    = ahwmap.get(DcMotor.class, "left_Back");
+        //rightFront = ahwmap.get(DcMotor.class, "right_Front");
         lift = ahwmap.get(DcMotor.class, "lift_Arm");
         ratchet = ahwmap.get(Servo.class, "ratchet");
 
         //yee = ahwmap.get(Servo.class, "yee");
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        //leftBack.setDirection(DcMotor.Direction.FORWARD);
+        //rightFront.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //navx = hwMap.get(NavxMicroNavigationSensor.class, "navx");
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

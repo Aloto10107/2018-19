@@ -60,24 +60,23 @@ public class OneSampleAuto extends LinearOpMode {
         //gyroTurn(90);
 
         robot.lift.setPower(-.3);
-        sleep(4000);
+        sleep(7500);
         robot.lift.setPower(0);
-        turn(.5, 600);
-        Baddrive(.7, 1000);
+        drive(.7, 1000);
         gyroTurn(-90);
         //turn(.5, 350);
         drive(.75, 750);
 
         while (!detector.isFound()) {
-            robot.leftBack.setPower(-0.5);
+            //robot.leftBack.setPower(-0.5);
             robot.rightBack.setPower(-0.5);
             robot.leftFront.setPower(-0.5);
-            robot.rightFront.setPower(-0.5);
+            //robot.rightFront.setPower(-0.5);
         }
-        robot.leftBack.setPower(0);
+        //robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
         robot.leftFront.setPower(0);
-        robot.rightFront.setPower(0);
+        //robot.rightFront.setPower(0);
 
         sleep(250);
 
@@ -96,26 +95,31 @@ public class OneSampleAuto extends LinearOpMode {
 
 
         while (robot.sensorRange.getDistance(DistanceUnit.CM) >= 25) {
-            robot.leftBack.setPower(-.5);
+            //robot.leftBack.setPower(-.5);
             robot.rightBack.setPower(-.5);
             robot.leftFront.setPower(-.5);
-            robot.rightFront.setPower(-.5);
+            //robot.rightFront.setPower(-.5);
         }
 
-        robot.leftBack.setPower(0);
+        //robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
         robot.leftFront.setPower(0);
-        robot.rightFront.setPower(0);
+        //robot.rightFront.setPower(0);
 
-        gyroTurn(135);
+        gyroTurn(-45);
 
-        drive(1, 1500);
+        drive(-1, 1500);
 
         robot.ratchet.setPosition(1);
 
         sleep(500);
 
-        robot.ratchet.setPosition(0);
+        robot.lift.setPower(.5);
+
+        sleep(1500);
+
+        robot.lift.setPower(0);
+
 
         //drive(-0.7, 4000);
 
@@ -139,15 +143,15 @@ public class OneSampleAuto extends LinearOpMode {
     */
     }
     public void Baddrive (double MotorPower, long time){
-            robot.leftBack.setPower(MotorPower);
+            //robot.leftBack.setPower(MotorPower);
             robot.rightBack.setPower(MotorPower);
             robot.leftFront.setPower(MotorPower);
-            robot.rightFront.setPower(MotorPower);
+            //robot.rightFront.setPower(MotorPower);
             sleep(time);
-            robot.leftBack.setPower(0);
+            //robot.leftBack.setPower(0);
             robot.rightBack.setPower(0);
             robot.leftFront.setPower(0);
-            robot.rightFront.setPower(0);
+            //robot.rightFront.setPower(0);
             sleep(500);
         }
 
@@ -166,37 +170,37 @@ public class OneSampleAuto extends LinearOpMode {
         while (time > runTime.milliseconds()){
             error = (degrees - getHeading());
             speed = kp * error;
-            robot.leftBack.setPower(motorpower - speed);
+            //robot.leftBack.setPower(motorpower - speed);
             robot.rightBack.setPower(motorpower + speed);
             robot.leftFront.setPower(motorpower - speed);
-            robot.rightFront.setPower(motorpower + speed);
+            //robot.rightFront.setPower(motorpower + speed);
         }
-        robot.leftBack.setPower(0);
+        //robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
         robot.leftFront.setPower(0);
-        robot.rightFront.setPower(0);
+        //robot.rightFront.setPower(0);
         sleep(500);
     }
     public void turn(double MotorPower, long time){
-        robot.leftBack.setPower(-MotorPower);
+        //robot.leftBack.setPower(-MotorPower);
         robot.rightBack.setPower(MotorPower);
         robot.leftFront.setPower(-MotorPower);
-        robot.rightFront.setPower(MotorPower);
+        //robot.rightFront.setPower(MotorPower);
         sleep(time);
-        robot.leftBack.setPower(0);
+        //robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
         robot.leftFront.setPower(0);
-        robot.rightFront.setPower(0);
+        //robot.rightFront.setPower(0);
         sleep(500);
 
     }
-    public void encoderDrive(double distance){
-        int lefttarget = (int) (robot.leftBack.getCurrentPosition() + distance*COUNTS_PER_INCH);
+    /*public void encoderDrive(double distance){
+        //int lefttarget = (int) (robot.leftBack.getCurrentPosition() + distance*COUNTS_PER_INCH);
         int righttarget = (int) (robot.rightBack.getCurrentPosition() + distance*COUNTS_PER_INCH);
 
         double kp = 0.001;
 
-        float leftError = robot.leftBack.getCurrentPosition() - lefttarget;
+        //float leftError = robot.leftBack.getCurrentPosition() - lefttarget;
         float rightError = robot.rightBack.getCurrentPosition() - righttarget;
 
         while(Math.abs(leftError) > 5 & Math.abs(rightError) > 5){
@@ -219,7 +223,7 @@ public class OneSampleAuto extends LinearOpMode {
         robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
         robot.rightFront.setPower(0);
-    }
+    }*/
     public float getHeading(){
         Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
@@ -241,15 +245,15 @@ public class OneSampleAuto extends LinearOpMode {
         while (Math.abs(error) > 5 && time5.milliseconds() < 3000){
             error = (degrees - getHeading());
             speed = kp * error;
-            robot.leftBack.setPower(speed);
+            //robot.leftBack.setPower(speed);
             robot.rightBack.setPower(-speed);
             robot.leftFront.setPower(speed);
-            robot.rightFront.setPower(-speed);
+            //robot.rightFront.setPower(-speed);
         }
-        robot.leftBack.setPower(0);
+        //robot.leftBack.setPower(0);
         robot.rightBack.setPower(0);
         robot.leftFront.setPower(0);
-        robot.rightFront.setPower(0);
+        //robot.rightFront.setPower(0);
         sleep(500);
     }
 }
