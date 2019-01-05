@@ -15,6 +15,8 @@ public class  HardwareRobotMap {
     //public DcMotor rightFront = null;
     public DcMotor leftFront = null;
     public DcMotor rightBack = null;
+    public DcMotor left = null;
+    public DcMotor right = null;
     public Servo yee = null;
     public DcMotor lift = null;
     //public NavxMicroNavigationSensor navx = null;
@@ -36,6 +38,8 @@ public class  HardwareRobotMap {
         //hwMap =  ahwmap;
         leftFront  = ahwmap.get(DcMotor.class, "left_Front");
         rightBack = ahwmap.get(DcMotor.class, "right_Back");
+        left  = ahwmap.get(DcMotor.class, "left");
+        right = ahwmap.get(DcMotor.class, "right");
         //leftBack    = ahwmap.get(DcMotor.class, "left_Back");
         //rightFront = ahwmap.get(DcMotor.class, "right_Front");
         lift = ahwmap.get(DcMotor.class, "lift_Arm");
@@ -44,11 +48,15 @@ public class  HardwareRobotMap {
         //yee = ahwmap.get(Servo.class, "yee");
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
+        left.setDirection(DcMotor.Direction.FORWARD);
+        right.setDirection(DcMotor.Direction.REVERSE);
         //leftBack.setDirection(DcMotor.Direction.FORWARD);
         //rightFront.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -56,6 +64,8 @@ public class  HardwareRobotMap {
         //rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

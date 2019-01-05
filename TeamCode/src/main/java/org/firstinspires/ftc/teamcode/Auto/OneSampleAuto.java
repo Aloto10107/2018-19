@@ -60,12 +60,12 @@ public class OneSampleAuto extends LinearOpMode {
         //gyroTurn(90);
 
         robot.lift.setPower(-.3);
-        sleep(7500);
+        sleep(9500);
         robot.lift.setPower(0);
-        drive(.7, 1000);
-        gyroTurn(-90);
-        //turn(.5, 350);
-        drive(.75, 750);
+        drive(-.7, 1000);
+        //gyroTurn(-90);//
+        turn(.5, 850);
+        drive(.75, 850);
 
         while (!detector.isFound()) {
             //robot.leftBack.setPower(-0.5);
@@ -82,16 +82,17 @@ public class OneSampleAuto extends LinearOpMode {
 
         //drive(.25, 400);
 
-        gyroTurn(0);
-        //turn(-.5, 350);
+        //gyroTurn(0);
+        turn(-.5, 850);
 
-        drive(.25, 1000);
+        drive(-.25, 1000);
 
-        drive(-.25, 800);
+        drive(.25, 800);
 
-        gyroTurn(-90);
+        //gyroTurn(-90);
+        turn(-.5, 850);
 
-        //drive(-.25, 400);
+        drive(-.25, 400);
 
 
         while (robot.sensorRange.getDistance(DistanceUnit.CM) >= 25) {
@@ -106,19 +107,15 @@ public class OneSampleAuto extends LinearOpMode {
         robot.leftFront.setPower(0);
         //robot.rightFront.setPower(0);
 
-        gyroTurn(-45);
+        gyroTurn(135);
 
         drive(-1, 1500);
 
-        robot.ratchet.setPosition(1);
+        //robot.ratchet.setPosition(1);
 
         sleep(500);
 
-        robot.lift.setPower(.5);
-
-        sleep(1500);
-
-        robot.lift.setPower(0);
+        arm(.5,1500);
 
 
         //drive(-0.7, 4000);
@@ -183,8 +180,8 @@ public class OneSampleAuto extends LinearOpMode {
     }
     public void turn(double MotorPower, long time){
         //robot.leftBack.setPower(-MotorPower);
-        robot.rightBack.setPower(MotorPower);
-        robot.leftFront.setPower(-MotorPower);
+        robot.rightBack.setPower(-MotorPower);
+        robot.leftFront.setPower(MotorPower);
         //robot.rightFront.setPower(MotorPower);
         sleep(time);
         //robot.leftBack.setPower(0);
@@ -227,6 +224,13 @@ public class OneSampleAuto extends LinearOpMode {
     public float getHeading(){
         Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
+    }
+    public void arm(double power, long time){
+        robot.left.setPower(power);
+        robot.right.setPower(power);
+        sleep(time);
+        robot.left.setPower(0);
+        robot.right.setPower(0);
     }
     public void gyroTurn (float degrees){
 

@@ -30,12 +30,15 @@ public class Teleop extends OpMode {
     //public DcMotor rightFront = null;
     public DcMotor leftFront = null;
     public DcMotor rightBack = null;
-    //public DcMotor intakeHeight = null;
-    public DcMotor intake = null;
-    public BNO055IMU imu = null;
+    public DcMotor left = null;
+    public DcMotor right = null;
+    public Servo yee = null;
     public DcMotor lift = null;
+    //public NavxMicroNavigationSensor navx = null;
+    public BNO055IMU imu = null;
+    public DistanceSensor sensorRange;
     public Servo ratchet = null;
-    //public Servo theCLAW = null;
+    public DcMotor intake = null;
 
     ToggleDouble clawPos = new ToggleDouble(new double[] {
         .65, .3, .8
@@ -45,46 +48,42 @@ public class Teleop extends OpMode {
     double leftPower = 0;
     double intakePower = 0;
 
-    public DistanceSensor sensorRange;
 
     @Override
     public void init() {
         leftFront  = hardwareMap.get(DcMotor.class, "left_Front");
         rightBack = hardwareMap.get(DcMotor.class, "right_Back");
+        left  = hardwareMap.get(DcMotor.class, "left");
+        right = hardwareMap.get(DcMotor.class, "right");
         //leftBack    = hardwareMap.get(DcMotor.class, "left_Back");
         //rightFront = hardwareMap.get(DcMotor.class, "right_Front");
         lift = hardwareMap.get(DcMotor.class, "lift_Arm");
         ratchet = hardwareMap.get(Servo.class, "ratchet");
-        //intakeHeight = hardwareMap.get(DcMotor.class, "intake_Height");
-        //intakeExtention = hardwareMap.get(DcMotor.class, "intake_Extention");
-        //theCLAW = hardwareMap.get(Servo.class, "the_CLAW");
+        intake = hardwareMap.get(DcMotor.class, "intake");
 
+        //yee = hardwareMap.get(Servo.class, "yee");
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
+        left.setDirection(DcMotor.Direction.FORWARD);
+        right.setDirection(DcMotor.Direction.REVERSE);
         //leftBack.setDirection(DcMotor.Direction.FORWARD);
         //rightFront.setDirection(DcMotor.Direction.REVERSE);
-        //intakeHeight.setDirection(DcMotor.Direction.REVERSE);
-        //intakeExtention.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //intakeHeight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //navx = hwMap.get(NavxMicroNavigationSensor.class, "navx");
         //rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //intakeHeight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
-        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
-
-        /*lift = hardwareMap.get(DcMotor.class, "hookArm");
-        lift.setDirection(DcMotor.Direction.FORWARD);
-        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -96,13 +95,17 @@ public class Teleop extends OpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
+        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
+
     }
 
     @Override
     public void loop() {
 
-        rightPower = ((-gamepad1.right_trigger + gamepad1.left_trigger)  + (gamepad1.left_stick_x));
-        leftPower = ((-gamepad1.right_trigger + gamepad1.left_trigger)  - (gamepad1.left_stick_x));
+        rightPower = ((gamepad1.right_trigger + -gamepad1.left_trigger)  - (gamepad1.left_stick_x));
+        leftPower = ((gamepad1.right_trigger + -gamepad1.left_trigger)  + (gamepad1.left_stick_x));
 
 
         /*rightPower = -gamepad1.right_stick_y;
@@ -155,15 +158,16 @@ public class Teleop extends OpMode {
         //intakeExtention.setPower(intakeExtentionPower);
 
 
-        //if(gamepad2.dpad_up && !gamepad2.dpad_down) {
-        //    intakeExtention.setPower(0.4);
-        //}
-        //if(gamepad2.dpad_down && !gamepad2.dpad_up) {
-        //    intakeExtention.setPower(-0.4);
-        //}
-        //if(!gamepad2.dpad_up && !gamepad2.dpad_down) {
-        //    intakeExtention.setPower(0);
-        //}
+        if(gamepad2.dpad_up && !gamepad2.dpad_down) {
+            left.setPower(1);
+            right.setPower(-1);        }
+        if(gamepad2.dpad_down && !gamepad2.dpad_up) {
+            left.setPower(-1);
+            right.setPower(1);        }
+        if(!gamepad2.dpad_up && !gamepad2.dpad_down) {
+            left.setPower(0);
+            right.setPower(0);
+        }
 
 
         if(gamepad2.y){
