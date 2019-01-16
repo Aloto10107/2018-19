@@ -30,18 +30,22 @@ public class Teleop extends OpMode {
     //public DcMotor rightFront = null;
     public DcMotor leftFront = null;
     public DcMotor rightBack = null;
-    public DcMotor left = null;
-    public DcMotor right = null;
+    public Servo IRS = null;
+    //IRS= Internal Revenue Service or Intake Right Servo or Ill-Minded Revenge System
+    public Servo ILS = null;
+    //ILS= I Left Susan (TROYLLIAM) or Intake Left Servo or I Run Sijsoisoihrwoghop
+    public DcMotor intakeLeft = null;
+    public DcMotor IntakeRight = null;
     public Servo yee = null;
     public DcMotor lift = null;
     //public NavxMicroNavigationSensor navx = null;
     public BNO055IMU imu = null;
     public DistanceSensor sensorRange;
     public Servo ratchet = null;
-    public DcMotor intake = null;
+    public DcMotor intakeSweeper = null;
 
-    ToggleDouble clawPos = new ToggleDouble(new double[] {
-        .65, .3, .8
+    ToggleDouble intakePos = new ToggleDouble(new double[] {
+            0, 1
     });
 
     double rightPower = 0;
@@ -53,26 +57,26 @@ public class Teleop extends OpMode {
     public void init() {
         leftFront  = hardwareMap.get(DcMotor.class, "left_Front");
         rightBack = hardwareMap.get(DcMotor.class, "right_Back");
-        left  = hardwareMap.get(DcMotor.class, "left");
-        right = hardwareMap.get(DcMotor.class, "right");
+        intakeLeft  = hardwareMap.get(DcMotor.class, "left");
+        IntakeRight = hardwareMap.get(DcMotor.class, "right");
         //leftBack    = hardwareMap.get(DcMotor.class, "left_Back");
         //rightFront = hardwareMap.get(DcMotor.class, "right_Front");
         lift = hardwareMap.get(DcMotor.class, "lift_Arm");
         ratchet = hardwareMap.get(Servo.class, "ratchet");
-        intake = hardwareMap.get(DcMotor.class, "intake");
+        intakeSweeper = hardwareMap.get(DcMotor.class, "intake");
 
         //yee = hardwareMap.get(Servo.class, "yee");
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
-        left.setDirection(DcMotor.Direction.FORWARD);
-        right.setDirection(DcMotor.Direction.REVERSE);
+        intakeLeft.setDirection(DcMotor.Direction.REVERSE);
+        IntakeRight.setDirection(DcMotor.Direction.FORWARD);
         //leftBack.setDirection(DcMotor.Direction.FORWARD);
         //rightFront.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        IntakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -80,8 +84,8 @@ public class Teleop extends OpMode {
         //rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        IntakeRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -153,38 +157,43 @@ public class Teleop extends OpMode {
 
         intakePower = -gamepad2.right_trigger + gamepad2.left_trigger;
 
-        intake.setPower(intakePower);
+        intakeSweeper.setPower(intakePower);
 
         //intakeExtention.setPower(intakeExtentionPower);
 
 
         if(gamepad2.dpad_up && !gamepad2.dpad_down) {
-            left.setPower(1);
-            right.setPower(-1);        }
+            intakeLeft.setPower(1);
+            IntakeRight.setPower(1);        }
         if(gamepad2.dpad_down && !gamepad2.dpad_up) {
-            left.setPower(-1);
-            right.setPower(1);        }
+            intakeLeft.setPower(-1);
+            IntakeRight.setPower(-1);        }
         if(!gamepad2.dpad_up && !gamepad2.dpad_down) {
-            left.setPower(0);
-            right.setPower(0);
+            intakeLeft.setPower(0);
+            IntakeRight.setPower(0);
         }
 
 
-        if(gamepad2.y){
+
+
+        /*if(gamepad2.y){
             ratchet.setPosition(1);
         }
         if(!gamepad2.y){
             ratchet.setPosition(0);
 
-        }
+
+
+        } */
         /*if(gamepad2.left_stick_button && !gamepad2.right_stick_button){
             theCLAW.setPosition(0);
         }
         if(gamepad2.right_stick_button && !gamepad2.left_stick_button){
             theCLAW. setPosition(0.65);
         }*/
-        clawPos.input(gamepad2.a);
-        //theCLAW.setPosition(clawPos.output());
+        intakePos.input(gamepad2.a);
+        ILS.setPosition(intakePos.output());
+        IRS.setPosition(intakePos.output());
 
         telemetry.addData("heading", getHeading());
         //telemetry.addData("rightFront", rightFront.getCurrentPosition());
