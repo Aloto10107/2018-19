@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.HardwareRobotMap;
 
 @Autonomous(name="StraightToCrater", group="Auto")
@@ -49,14 +53,16 @@ public class StraightToCrater extends LinearOpMode {
 
         waitForStart();
 
-        robot.lift.setPower(-.3);
-        sleep(9500);
-        robot.lift.setPower(0);
-        robot.rightBack.setPower(-.5);
-        robot.leftFront.setPower(-.5);
-        sleep(5000);
-        robot.rightBack.setPower(0);
-        robot.leftFront.setPower(0);
+//        robot.lift.setPower(-.3);
+//        sleep(9500);
+//        robot.lift.setPower(0);
+//        robot.rightBack.setPower(-.5);
+//        robot.leftFront.setPower(-.5);
+//        sleep(5000);
+//        robot.rightBack.setPower(0);
+//        robot.leftFront.setPower(0);
+        gyroTurn(90);
+
     }
 
 //    public void drive(double motorpower, double time){
@@ -82,4 +88,36 @@ public class StraightToCrater extends LinearOpMode {
 //        //robot.rightFront.setPower(0);
 //        sleep(500);
 //    }
+    public float getHeading(){
+    Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+    return angles.firstAngle;
+    }
+    public void gyroTurn (float degrees){
+
+    //read orientation values from navx
+    double speed;
+
+    double kp = 0.0025;
+
+    ElapsedTime time5 = new ElapsedTime();
+
+    time5.reset();
+
+    float error = (degrees - getHeading());
+    speed = kp * error;
+    //run loop to turn
+    while (Math.abs(error) > 5 && time5.milliseconds() < 3000){
+        error = (degrees - getHeading());
+        speed = kp * error;
+        //robot.leftBack.setPower(speed);
+        robot.rightBack.setPower(-speed);
+        robot.leftFront.setPower(speed);
+        //robot.rightFront.setPower(-speed);
+    }
+    //robot.leftBack.setPower(0);
+    robot.rightBack.setPower(0);
+    robot.leftFront.setPower(0);
+    //robot.rightFront.setPower(0);
+    sleep(500);
+}
 }

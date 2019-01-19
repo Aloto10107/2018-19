@@ -89,7 +89,7 @@ public class OneSampleAuto extends LinearOpMode {
 
         drive(.25, 800);
 
-        //gyroTurn(-90);
+        gyroTurn(-90);
         turn(-.5, 850);
 
         drive(-.25, 400);
@@ -107,7 +107,7 @@ public class OneSampleAuto extends LinearOpMode {
         robot.leftFront.setPower(0);
         //robot.rightFront.setPower(0);
 
-        gyroTurn(135);
+        //gyroTurn(135);
 
         drive(-1, 1500);
 

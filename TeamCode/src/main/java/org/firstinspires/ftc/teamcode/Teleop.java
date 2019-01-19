@@ -43,10 +43,10 @@ public class Teleop extends OpMode {
     public DistanceSensor sensorRange;
     public Servo ratchet = null;
     public DcMotor intakeSweeper = null;
+    public DcMotor extend = null;
 
-    ToggleDouble intakePos = new ToggleDouble(new double[] {
-            0, 1
-    });
+    ToggleBoolean intakePos = new ToggleBoolean();
+
 
     double rightPower = 0;
     double leftPower = 0;
@@ -64,6 +64,9 @@ public class Teleop extends OpMode {
         lift = hardwareMap.get(DcMotor.class, "lift_Arm");
         ratchet = hardwareMap.get(Servo.class, "ratchet");
         intakeSweeper = hardwareMap.get(DcMotor.class, "intake");
+        IRS = hardwareMap.get(Servo.class, "IRS");
+        ILS = hardwareMap.get(Servo.class, "ILS");
+        extend = hardwareMap.get(DcMotor.class, "extend");
 
         //yee = hardwareMap.get(Servo.class, "yee");
         leftFront.setDirection(DcMotor.Direction.FORWARD);
@@ -141,6 +144,15 @@ public class Teleop extends OpMode {
         if(gamepad2.left_bumper && !gamepad2.right_bumper){
             lift.setPower(-1);
         }
+        if (gamepad2.y && !gamepad2.b){
+            extend.setPower(1);
+        }
+        if (!gamepad2.y && gamepad2.b){
+            extend.setPower(-1);
+        }
+        if (!gamepad2.y && !gamepad2.b){
+            extend.setPower(0);
+        }
 
 
         //if(gamepad2.right_trigger > 0.8 && gamepad2.left_trigger < 0.8) {
@@ -164,15 +176,19 @@ public class Teleop extends OpMode {
 
         if(gamepad2.dpad_up && !gamepad2.dpad_down) {
             intakeLeft.setPower(1);
-            IntakeRight.setPower(1);        }
+            IntakeRight.setPower(-1);
+            }
         if(gamepad2.dpad_down && !gamepad2.dpad_up) {
             intakeLeft.setPower(-1);
-            IntakeRight.setPower(-1);        }
+            IntakeRight.setPower(1);
+                   }
         if(!gamepad2.dpad_up && !gamepad2.dpad_down) {
             intakeLeft.setPower(0);
             IntakeRight.setPower(0);
         }
 
+        intakeLeft.setPower(gamepad2.left_stick_y);
+        intakeLeft.setPower(-gamepad2.left_stick_y);
 
 
 
@@ -191,9 +207,21 @@ public class Teleop extends OpMode {
         if(gamepad2.right_stick_button && !gamepad2.left_stick_button){
             theCLAW. setPosition(0.65);
         }*/
+
         intakePos.input(gamepad2.a);
-        ILS.setPosition(intakePos.output());
-        IRS.setPosition(intakePos.output());
+
+        if(intakePos.output()){
+            ILS.setPosition(0);
+            IRS.setPosition(1);
+        }
+        else {
+            ILS.setPosition(1);
+            IRS.setPosition(0);
+        }
+
+
+
+
 
         telemetry.addData("heading", getHeading());
         //telemetry.addData("rightFront", rightFront.getCurrentPosition());
