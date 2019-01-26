@@ -174,22 +174,32 @@ public class Teleop extends OpMode {
         //intakeExtention.setPower(intakeExtentionPower);
 
 
-        if(gamepad2.dpad_up && !gamepad2.dpad_down) {
-            intakeLeft.setPower(1);
-            IntakeRight.setPower(-1);
-            }
-        if(gamepad2.dpad_down && !gamepad2.dpad_up) {
-            intakeLeft.setPower(-1);
-            IntakeRight.setPower(1);
-                   }
-        if(!gamepad2.dpad_up && !gamepad2.dpad_down) {
+//        if(gamepad2.dpad_up && !gamepad2.dpad_down) {
+//            intakeLeft.setPower(1);
+//            IntakeRight.setPower(-1);
+//            }
+//        if(gamepad2.dpad_down && !gamepad2.dpad_up) {
+//            intakeLeft.setPower(-1);
+//            IntakeRight.setPower(1);
+//                   }
+//        if(!gamepad2.dpad_up && !gamepad2.dpad_down) {
+//            intakeLeft.setPower(0);
+//            IntakeRight.setPower(0);
+//        }
+
+        if (Math.abs(gamepad2.left_stick_y) <= 0.1) {
             intakeLeft.setPower(0);
             IntakeRight.setPower(0);
+
         }
 
-        intakeLeft.setPower(gamepad2.left_stick_y);
-        intakeLeft.setPower(-gamepad2.left_stick_y);
+        else
 
+        {
+            intakeLeft.setPower(0.5*Math.pow(gamepad2.left_stick_y, 3));
+            IntakeRight.setPower(0.5*Math.pow(-gamepad2.left_stick_y, 3));
+
+        }
 
 
         /*if(gamepad2.y){
@@ -220,10 +230,6 @@ public class Teleop extends OpMode {
         }
 
 
-
-
-
-        telemetry.addData("heading", getHeading());
         //telemetry.addData("rightFront", rightFront.getCurrentPosition());
         telemetry.addData("leftFront", leftFront.getCurrentPosition());
         telemetry.addData("rightBack", rightBack.getCurrentPosition());

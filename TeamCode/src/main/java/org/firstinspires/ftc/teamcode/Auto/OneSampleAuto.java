@@ -59,11 +59,11 @@ public class OneSampleAuto extends LinearOpMode {
 
         //gyroTurn(90);
 
-        robot.lift.setPower(-.3);
-        sleep(9500);
+        robot.lift.setPower(-.56);
+        sleep(12000);
         robot.lift.setPower(0);
-        drive(-.7, 1000);
-        //gyroTurn(-90);//
+        drive(-.7, 800);
+        //gyroTurn(-90);
         turn(.5, 850);
         drive(.75, 850);
 
@@ -83,40 +83,42 @@ public class OneSampleAuto extends LinearOpMode {
         //drive(.25, 400);
 
         //gyroTurn(0);
-        turn(-.5, 850);
+        turn(-.5, 850);//
 
-        drive(-.25, 1000);
+        drive(-.25, 10107);
 
-        drive(.25, 800);
+        //drive(.25, 2000);
 
-        gyroTurn(-90);
-        turn(-.5, 850);
-
-        drive(-.25, 400);
-
-
-        while (robot.sensorRange.getDistance(DistanceUnit.CM) >= 25) {
-            //robot.leftBack.setPower(-.5);
-            robot.rightBack.setPower(-.5);
-            robot.leftFront.setPower(-.5);
-            //robot.rightFront.setPower(-.5);
-        }
-
-        //robot.leftBack.setPower(0);
-        robot.rightBack.setPower(0);
-        robot.leftFront.setPower(0);
-        //robot.rightFront.setPower(0);
-
-        //gyroTurn(135);
-
-        drive(-1, 1500);
-
-        //robot.ratchet.setPosition(1);
-
-        sleep(500);
-
-        arm(.5,1500);
-
+        //gyroTurn(-90);
+//        turn(-.5, 850);
+//
+//        drive(-.25, 400);
+//
+//
+//        while (robot.sensorRange.getDistance(DistanceUnit.CM) >= 25) {
+//            //robot.leftBack.setPower(.5);
+//            robot.rightBack.setPower(.5);
+//            robot.leftFront.setPower(.5);
+//            //robot.rightFront.setPower(.5);
+//        }
+//
+//        //robot.leftBack.setPower(0);
+//        robot.rightBack.setPower(0);
+//        robot.leftFront.setPower(0);
+//        //robot.rightFront.setPower(0);
+//
+//        gyroTurn(135);
+//
+//        turn(0.5, 1350);
+//
+//        drive(1, 1500);
+//
+//        //robot.ratchet.setPosition(1);
+//
+//        sleep(500);
+//
+//        arm(.5,1500);
+//
 
         //drive(-0.7, 4000);
 
@@ -226,11 +228,9 @@ public class OneSampleAuto extends LinearOpMode {
         return angles.firstAngle;
     }
     public void arm(double power, long time){
-        robot.left.setPower(power);
-        robot.right.setPower(power);
+        robot.intakeSweeper.setPower(power);
         sleep(time);
-        robot.left.setPower(0);
-        robot.right.setPower(0);
+        robot.intakeSweeper.setPower(0);
     }
     public void gyroTurn (float degrees){
 

@@ -23,6 +23,7 @@ public class  HardwareRobotMap {
     public BNO055IMU imu = null;
     public DistanceSensor sensorRange;
     public Servo ratchet = null;
+    public DcMotor intakeSweeper = null;
 
 
     //HardwareMap hwMap =  null;
@@ -44,6 +45,7 @@ public class  HardwareRobotMap {
         //rightFront = ahwmap.get(DcMotor.class, "right_Front");
         lift = ahwmap.get(DcMotor.class, "lift_Arm");
         ratchet = ahwmap.get(Servo.class, "ratchet");
+        intakeSweeper = ahwmap.get(DcMotor.class, "intake");
 
         //yee = ahwmap.get(Servo.class, "yee");
         leftFront.setDirection(DcMotor.Direction.FORWARD);
@@ -54,6 +56,7 @@ public class  HardwareRobotMap {
         //rightFront.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeSweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -68,6 +71,7 @@ public class  HardwareRobotMap {
         right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;

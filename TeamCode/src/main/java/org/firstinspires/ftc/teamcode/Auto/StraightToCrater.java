@@ -53,15 +53,18 @@ public class StraightToCrater extends LinearOpMode {
 
         waitForStart();
 
-//        robot.lift.setPower(-.3);
-//        sleep(9500);
+//        robot.lift.setPower(-.4);
+//        sleep(11500);
 //        robot.lift.setPower(0);
 //        robot.rightBack.setPower(-.5);
 //        robot.leftFront.setPower(-.5);
-//        sleep(5000);
+//        sleep(4000);
 //        robot.rightBack.setPower(0);
 //        robot.leftFront.setPower(0);
-        gyroTurn(90);
+//        robot.intakeSweeper.setPower(-0.8);
+//        sleep(1600);
+//        robot.intakeSweeper.setPower(0);//
+        gyroTurn(-45);
 
     }
 
@@ -97,7 +100,7 @@ public class StraightToCrater extends LinearOpMode {
     //read orientation values from navx
     double speed;
 
-    double kp = 0.0025;
+    double kp = 0.0075;
 
     ElapsedTime time5 = new ElapsedTime();
 
