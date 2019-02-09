@@ -10,13 +10,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.HardwareRobotMap;
-import org.firstinspires.ftc.teamcode.SoftwareRobotMap;
 
-@Autonomous(name="OneSampleAuto", group="Auto")
-public class OneSampleAuto extends LinearOpMode {
+@Autonomous(name="NoMarker", group="Auto")
+public class NoMarker extends LinearOpMode {
 
     HardwareRobotMap robot = new HardwareRobotMap();
 
@@ -59,12 +57,12 @@ public class OneSampleAuto extends LinearOpMode {
 
         //gyroTurn(90);
 
-        robot.lift.setPower(-.56);
-        sleep(12000);
+        robot.lift.setPower(-1);
+        sleep(4500);
         robot.lift.setPower(0);
-        drive(-.7, 800);
-        //gyroTurn(-90);
-        turn(.5, 850);
+        drive(-.7, 900);
+        gyroTurn(-90);
+        //turn(.5, 850);
         drive(.75, 850);
 
         while (!detector.isFound()) {
@@ -78,14 +76,28 @@ public class OneSampleAuto extends LinearOpMode {
         robot.leftFront.setPower(0);
         //robot.rightFront.setPower(0);
 
-        sleep(250);
+        sleep(500);
 
         //drive(.25, 400);
 
-        //gyroTurn(0);
-        turn(-.5, 850);//
+        gyroTurn(-180);
+        //turn(-.5, 850);//
 
-        drive(-.25, 10107);
+        sleep(500);
+
+        drive(.5, 4*1010.7);
+
+        sleep(500);
+
+        gyroTurn(0);
+
+        sleep(500);
+
+        robot.intakeSweeper.setPower(1);
+        sleep(1500);
+        robot.intakeSweeper.setPower(0);
+
+        drive(.5, 250);
 
         //drive(.25, 2000);
 
@@ -237,21 +249,24 @@ public class OneSampleAuto extends LinearOpMode {
         //read orientation values from navx
         double speed;
 
-        double kp = 0.008;
+        double kp = 0.0080;
 
         ElapsedTime time5 = new ElapsedTime();
 
         time5.reset();
 
-        float error = (degrees - getHeading());
-        speed = kp * error;
+        Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        float error = (degrees - angles.firstAngle);
+        //speed = kp * error;
         //run loop to turn
         while (Math.abs(error) > 5 && time5.milliseconds() < 3000){
-            error = (degrees - getHeading());
+            error = (degrees - angles.firstAngle);
+            angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             speed = kp * error;
             //robot.leftBack.setPower(speed);
-            robot.rightBack.setPower(-speed);
-            robot.leftFront.setPower(speed);
+            robot.rightBack.setPower(speed);
+            robot.leftFront.setPower(-speed);
             //robot.rightFront.setPower(-speed);
         }
         //robot.leftBack.setPower(0);

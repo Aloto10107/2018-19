@@ -75,7 +75,7 @@ public class Teleop extends OpMode {
         IntakeRight.setDirection(DcMotor.Direction.FORWARD);
         //leftBack.setDirection(DcMotor.Direction.FORWARD);
         //rightFront.setDirection(DcMotor.Direction.REVERSE);
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -126,33 +126,27 @@ public class Teleop extends OpMode {
             rightPower = 0;
         }
 
-        rightPower = 0.7*rightPower;
-        leftPower = 0.7*leftPower;
+        rightPower = 0.8*rightPower;
+        leftPower = 0.8*leftPower;
 
         //rightFront.setPower(rightPower);
         rightBack.setPower(rightPower);
         //leftBack.setPower(leftPower);
         leftFront.setPower(leftPower);
 
+        if(gamepad2.left_bumper && !gamepad2.right_bumper)
+        {
+            lift.setPower(-1);
+    }
+        if(!gamepad2.left_bumper && !gamepad2.right_bumper){
+            lift.setPower(0);
+        }
         if(gamepad2.right_bumper && !gamepad2.left_bumper){
             lift.setPower(1);
         }
+        extend.setPower(-gamepad2.right_stick_y);
 
-        if(!gamepad2.right_bumper && !gamepad2.left_bumper){
-            lift.setPower(0);
-        }
-        if(gamepad2.left_bumper && !gamepad2.right_bumper){
-            lift.setPower(-1);
-        }
-        if (gamepad2.y && !gamepad2.b){
-            extend.setPower(1);
-        }
-        if (!gamepad2.y && gamepad2.b){
-            extend.setPower(-1);
-        }
-        if (!gamepad2.y && !gamepad2.b){
-            extend.setPower(0);
-        }
+
 
 
         //if(gamepad2.right_trigger > 0.8 && gamepad2.left_trigger < 0.8) {
@@ -235,6 +229,7 @@ public class Teleop extends OpMode {
         telemetry.addData("rightBack", rightBack.getCurrentPosition());
         //telemetry.addData("leftBack", leftBack.getCurrentPosition());
         telemetry.addData("distance", sensorRange.getDistance(DistanceUnit.CM));
+        telemetry.addData("gyro", getHeading());
         telemetry.update();
     }
     public float getHeading(){
