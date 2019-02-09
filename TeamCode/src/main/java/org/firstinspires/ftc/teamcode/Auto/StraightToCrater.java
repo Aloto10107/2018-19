@@ -64,7 +64,7 @@ public class StraightToCrater extends LinearOpMode {
 //        robot.intakeSweeper.setPower(-0.8);
 //        sleep(1600);
 //        robot.intakeSweeper.setPower(0);//
-        gyroTurn(-45);
+        gyroTurn(90);
 
     }
 
@@ -94,7 +94,7 @@ public class StraightToCrater extends LinearOpMode {
     public float getHeading(){
     Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     return angles.firstAngle;
-    }
+}
     public void gyroTurn (float degrees){
 
     //read orientation values from navx
@@ -106,15 +106,18 @@ public class StraightToCrater extends LinearOpMode {
 
     time5.reset();
 
-    float error = (degrees - getHeading());
-    speed = kp * error;
+    Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+    float error = (degrees - angles.firstAngle);
+    //speed = kp * error;
     //run loop to turn
     while (Math.abs(error) > 5 && time5.milliseconds() < 3000){
-        error = (degrees - getHeading());
+        error = (degrees - angles.firstAngle);
+        angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         speed = kp * error;
         //robot.leftBack.setPower(speed);
-        robot.rightBack.setPower(-speed);
-        robot.leftFront.setPower(speed);
+        robot.rightBack.setPower(speed);
+        robot.leftFront.setPower(-speed);
         //robot.rightFront.setPower(-speed);
     }
     //robot.leftBack.setPower(0);

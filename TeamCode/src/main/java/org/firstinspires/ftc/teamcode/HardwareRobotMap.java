@@ -54,7 +54,7 @@ public class  HardwareRobotMap {
         right.setDirection(DcMotor.Direction.REVERSE);
         //leftBack.setDirection(DcMotor.Direction.FORWARD);
         //rightFront.setDirection(DcMotor.Direction.REVERSE);
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeSweeper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
