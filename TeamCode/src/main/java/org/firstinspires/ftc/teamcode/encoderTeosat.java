@@ -21,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous(name="encoderTest", group="Auto")
 public class encoderTeosat extends LinearOpMode {
-    SoftwareRobotMap robot = new SoftwareRobotMap();
+    HardwareRobotMap robot = new HardwareRobotMap();
 
     @Override
     public void runOpMode() throws InterruptedException {

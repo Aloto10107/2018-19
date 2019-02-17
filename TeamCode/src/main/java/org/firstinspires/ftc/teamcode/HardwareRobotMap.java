@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class  HardwareRobotMap {
-    //public DcMotor leftBack = null;
-    //public DcMotor rightFront = null;
+    public DcMotor leftBack = null;
+    public DcMotor rightFront = null;
     public DcMotor leftFront = null;
     public DcMotor rightBack = null;
     public DcMotor left = null;
