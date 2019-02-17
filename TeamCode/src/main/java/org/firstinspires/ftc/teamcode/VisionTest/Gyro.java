@@ -5,13 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
+import org.firstinspires.ftc.teamcode.HardwareRobotMap;
 import org.firstinspires.ftc.teamcode.SoftwareRobotMap;
 
 
 @Autonomous(name = "navx", group = "I2C Bus 0")
 
 public class Gyro extends LinearOpMode {
-    SoftwareRobotMap robot = new SoftwareRobotMap();
+    HardwareRobotMap robot = new HardwareRobotMap();
     GyroSensor gyro;             // Declare ModernRobotics Gyro
 
     int heading = 0;            // Variable used for the heading of the gyro
