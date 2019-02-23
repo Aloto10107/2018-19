@@ -15,15 +15,15 @@ public abstract class StateFunctions extends BasicFunctions {
         drive(-.75, 850);
 
         while (!detector.isFound()) {
-            leftBack.setPower(-0.5);
+            //leftBack.setPower(-0.5);
             rightBack.setPower(0.6);
             leftFront.setPower(0.6);
-            rightFront.setPower(-0.5);
+            //rightFront.setPower(-0.5);
         }
-        leftBack.setPower(0);
+        //leftBack.setPower(0);
         rightBack.setPower(0);
         leftFront.setPower(0);
-        rightFront.setPower(0);
+        //rightFront.setPower(0);
 
         sleep(500);
 

@@ -132,15 +132,15 @@ public abstract class BasicFunctions extends SoftwareRobotMap {
         while (Math.abs(error) > 5){
             error = degrees - getHeading();
             speed = kp * error;
-            leftBack.setPower(-speed);
+            //leftBack.setPower(-speed);
             rightBack.setPower(speed);
             leftFront.setPower(-speed);
-            rightFront.setPower(speed);
+            //rightFront.setPower(speed);
         }
-        leftBack.setPower(0);
+        //leftBack.setPower(0);
         rightBack.setPower(0);
         leftFront.setPower(0);
-        rightFront.setPower(0);
+        //rightFront.setPower(0);
     }
 
     public void MoveLift(double LiftPower, long time){
@@ -162,27 +162,27 @@ public abstract class BasicFunctions extends SoftwareRobotMap {
         while (time > runTime.milliseconds()){
             error = (degrees - getHeading());
             speed = kp * error;
-            leftBack.setPower(motorpower - speed);
+            //leftBack.setPower(motorpower - speed);
             rightBack.setPower(motorpower + speed);
             leftFront.setPower(motorpower - speed);
-            rightFront.setPower(motorpower + speed);
+            //rightFront.setPower(motorpower + speed);
         }
-        leftBack.setPower(0);
+        //leftBack.setPower(0);
         rightBack.setPower(0);
         leftFront.setPower(0);
-        rightFront.setPower(0);
+        //rightFront.setPower(0);
         sleep(500);
     }
     public void turn(double MotorPower, long time){
-        leftBack.setPower(-MotorPower);
+        //leftBack.setPower(-MotorPower);
         rightBack.setPower(-MotorPower);
         leftFront.setPower(MotorPower);
-        rightFront.setPower(MotorPower);
+        //rightFront.setPower(MotorPower);
         sleep(time);
-        leftBack.setPower(0);
+        //leftBack.setPower(0);
         rightBack.setPower(0);
         leftFront.setPower(0);
-        rightFront.setPower(0);
+        //rightFront.setPower(0);
         sleep(500);
 
     }
